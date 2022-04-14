@@ -14,6 +14,7 @@ import java.util.Properties;
 import net.snowflake.client.ConditionalIgnoreRule;
 import net.snowflake.client.RunningOnGithubAction;
 import net.snowflake.client.category.TestCategoryOthers;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -890,13 +891,13 @@ public class DatabaseMetaDataLatestIT extends BaseJDBCTest {
       final String targetTable = "T0";
 
       connection
-          .createStatement()
-          .execute(
-              "create or replace table "
-                  + targetTable
-                  + "(C1 int, C2 varchar(100), C3 string default '', C4 number(18,4), C5 double,"
-                  + " C6 boolean, C7 date not null, C8 time, C9 timestamp_ntz(7), C10 binary,C11"
-                  + " variant, C12 timestamp_ltz(8), C13 timestamp_tz(3))");
+              .createStatement()
+              .execute(
+                      "create or replace table "
+                              + targetTable
+                              + "(C1 int, C2 varchar(100), C3 string default '', C4 number(18,4), C5 double,"
+                              + " C6 boolean, C7 date not null, C8 time, C9 timestamp_ntz(7), C10 binary,C11"
+                              + " variant, C12 timestamp_ltz(8), C13 timestamp_tz(3))");
 
       DatabaseMetaData metaData = connection.getMetaData();
 
@@ -1230,13 +1231,13 @@ public class DatabaseMetaDataLatestIT extends BaseJDBCTest {
       assertEquals("NO", resultSet.getString("IS_GENERATEDCOLUMN"));
 
       connection
-          .createStatement()
-          .execute(
-              "create or replace table "
-                  + targetTable
-                  + "(C1 string, C2 string default '', C3 string default 'apples', C4 string"
-                  + " default '\"apples\"', C5 int, C6 int default 5, C7 string default '''', C8"
-                  + " string default '''apples''''', C9  string default '%')");
+              .createStatement()
+              .execute(
+                      "create or replace table "
+                              + targetTable
+                              + "(C1 string, C2 string default '', C3 string default 'apples', C4 string"
+                              + " default '\"apples\"', C5 int, C6 int default 5, C7 string default '''', C8"
+                              + " string default '''apples''''', C9  string default '%')");
 
       metaData = connection.getMetaData();
 
@@ -1272,6 +1273,19 @@ public class DatabaseMetaDataLatestIT extends BaseJDBCTest {
       assertEquals(0, super.getSizeOfResultSet(resultSet));
 
       connection.createStatement().execute("drop table if exists T0");
+    }
+  }
+
+  /*
+   * This tests that an empty resultset will be returned for getProcedures when using a reader account.
+   */
+  @Test
+  @Ignore
+  public void testGetProceduresWithReaderAccount() throws SQLException {
+    try (Connection connection = getConnection()) {
+      DatabaseMetaData metadata = connection.getMetaData();
+      ResultSet rs = metadata.getProcedures(null, null, null);
+      assertEquals(0, getSizeOfResultSet(rs));
     }
   }
 }
