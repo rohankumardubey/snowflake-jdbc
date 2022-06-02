@@ -891,13 +891,13 @@ public class DatabaseMetaDataLatestIT extends BaseJDBCTest {
       final String targetTable = "T0";
 
       connection
-              .createStatement()
-              .execute(
-                      "create or replace table "
-                              + targetTable
-                              + "(C1 int, C2 varchar(100), C3 string default '', C4 number(18,4), C5 double,"
-                              + " C6 boolean, C7 date not null, C8 time, C9 timestamp_ntz(7), C10 binary,C11"
-                              + " variant, C12 timestamp_ltz(8), C13 timestamp_tz(3))");
+          .createStatement()
+          .execute(
+              "create or replace table "
+                  + targetTable
+                  + "(C1 int, C2 varchar(100), C3 string default '', C4 number(18,4), C5 double,"
+                  + " C6 boolean, C7 date not null, C8 time, C9 timestamp_ntz(7), C10 binary,C11"
+                  + " variant, C12 timestamp_ltz(8), C13 timestamp_tz(3))");
 
       DatabaseMetaData metaData = connection.getMetaData();
 
@@ -1231,13 +1231,13 @@ public class DatabaseMetaDataLatestIT extends BaseJDBCTest {
       assertEquals("NO", resultSet.getString("IS_GENERATEDCOLUMN"));
 
       connection
-              .createStatement()
-              .execute(
-                      "create or replace table "
-                              + targetTable
-                              + "(C1 string, C2 string default '', C3 string default 'apples', C4 string"
-                              + " default '\"apples\"', C5 int, C6 int default 5, C7 string default '''', C8"
-                              + " string default '''apples''''', C9  string default '%')");
+          .createStatement()
+          .execute(
+              "create or replace table "
+                  + targetTable
+                  + "(C1 string, C2 string default '', C3 string default 'apples', C4 string"
+                  + " default '\"apples\"', C5 int, C6 int default 5, C7 string default '''', C8"
+                  + " string default '''apples''''', C9  string default '%')");
 
       metaData = connection.getMetaData();
 
