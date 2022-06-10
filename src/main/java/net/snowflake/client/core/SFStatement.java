@@ -4,22 +4,7 @@
 
 package net.snowflake.client.core;
 
-import static net.snowflake.client.core.SessionUtil.*;
-import static net.snowflake.client.jdbc.SnowflakeUtil.systemGetProperty;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import net.snowflake.client.core.BasicEvent.QueryState;
 import net.snowflake.client.core.bind.BindException;
 import net.snowflake.client.core.bind.BindUploader;
@@ -34,6 +19,18 @@ import net.snowflake.client.log.SFLoggerFactory;
 import net.snowflake.client.util.SecretDetector;
 import net.snowflake.common.core.SqlState;
 import org.apache.http.client.methods.HttpRequestBase;
+
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import static net.snowflake.client.core.SessionUtil.*;
+import static net.snowflake.client.jdbc.SnowflakeUtil.systemGetProperty;
 
 /** Snowflake statement */
 public class SFStatement extends SFBaseStatement {
@@ -257,7 +254,7 @@ public class SFStatement extends SFBaseStatement {
     logger.debug("Done creating result set");
 
     if (asyncExec) {
-      session.activeAsyncQueries.add(resultSet.getQueryId());
+      session.activeAsyncQueriesMap.put(resultSet.getQueryId(), QueryStatus.NO_DATA);
     }
     return resultSet;
   }
