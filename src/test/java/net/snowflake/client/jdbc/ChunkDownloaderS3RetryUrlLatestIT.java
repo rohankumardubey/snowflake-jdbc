@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import net.snowflake.client.category.TestCategoryOthers;
 import net.snowflake.client.core.*;
 import org.apache.http.client.methods.*;
@@ -32,8 +31,7 @@ public class ChunkDownloaderS3RetryUrlLatestIT {
 
   @Before
   public void setup() throws SQLException, InterruptedException {
-    Properties paramProperties = new Properties();
-    connection = getConnection("s3testaccount", paramProperties);
+    connection = getConnection("s3testaccount");
     connection = getConnection();
     sfBaseSession = connection.unwrap(SnowflakeConnectionV1.class).getSFBaseSession();
     Statement statement = connection.createStatement();
