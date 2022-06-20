@@ -33,7 +33,7 @@ public class ChunkDownloaderS3RetryUrlLatestIT {
   @Before
   public void setup() throws SQLException, InterruptedException {
     Properties paramProperties = new Properties();
-    // connection = getConnection("s3testaccount", paramProperties);
+    connection = getConnection("s3testaccount", paramProperties);
     connection = getConnection();
     sfBaseSession = connection.unwrap(SnowflakeConnectionV1.class).getSFBaseSession();
     Statement statement = connection.createStatement();
@@ -74,13 +74,13 @@ public class ChunkDownloaderS3RetryUrlLatestIT {
         sfContext.getNetworkTimeoutInMilli() / 1000,
         sfContext.getAuthTimeout(),
         sfContext.getSocketTimeout(),
-        1,
-        0,
-        null,
-        false,
-        false,
-        false,
-        true);
+        1, // retry count
+        0, // inject socket timeout
+        null, // cancelling
+        false, // without cookies
+        false, // include retry parameters
+        false, // include request GUID
+        true); // retry HTTP 403
 
     assertFalse(getRequest.containsHeader("retryCount"));
     assertFalse(getRequest.containsHeader("clientStartTime"));
