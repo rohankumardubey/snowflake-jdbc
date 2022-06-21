@@ -3,7 +3,6 @@
  */
 package net.snowflake.client.jdbc;
 
-import static net.snowflake.client.AbstractDriverIT.getConnection;
 import static org.junit.Assert.*;
 
 import java.sql.Connection;
@@ -12,6 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import net.snowflake.client.AbstractDriverIT;
 import net.snowflake.client.category.TestCategoryOthers;
 import net.snowflake.client.core.*;
 import org.apache.http.client.methods.*;
@@ -22,7 +24,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 @Category(TestCategoryOthers.class)
-public class ChunkDownloaderS3RetryUrlLatestIT {
+public class ChunkDownloaderS3RetryUrlLatestIT extends AbstractDriverIT {
 
   private Connection connection;
   private SFStatement sfStatement;
@@ -31,8 +33,8 @@ public class ChunkDownloaderS3RetryUrlLatestIT {
 
   @Before
   public void setup() throws SQLException, InterruptedException {
-    connection = getConnection("s3testaccount");
-    connection = getConnection();
+    Properties paramProperties = new Properties();
+    connection = getConnection("s3testaccount", paramProperties);
     sfBaseSession = connection.unwrap(SnowflakeConnectionV1.class).getSFBaseSession();
     Statement statement = connection.createStatement();
     sfStatement = statement.unwrap(SnowflakeStatementV1.class).getSfStatement();
