@@ -12,7 +12,6 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import net.snowflake.client.AbstractDriverIT;
 import net.snowflake.client.category.TestCategoryOthers;
 import net.snowflake.client.core.*;
